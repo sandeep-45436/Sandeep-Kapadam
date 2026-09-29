@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { profile } from "@/data/profile";
-import { Mail, Phone, MapPin, Send, CheckCircle2, Copy, Check } from "lucide-react";
+import { Mail, Phone, MapPin, Send, CheckCircle2, Copy, Check, Sparkles } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/Icons";
 
 export default function Contact() {
@@ -27,18 +27,25 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="section-padding bg-slate-900 border-t border-slate-800/80 relative">
-      {/* Pop-up Toast Notification */}
+    <section id="contact" className="section-padding bg-[#070b16]/90 border-t border-slate-800/80 relative">
+      {/* Pop-up Holographic Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-5 py-3 rounded-2xl bg-cyan-500 text-slate-950 font-bold text-sm shadow-2xl shadow-cyan-500/40 animate-pop-toast border border-cyan-300">
-          <Check size={18} />
-          <span>{toastMessage}</span>
+        <div className="fixed bottom-6 right-6 z-[150] flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-[#0d162a]/95 text-white font-mono text-xs shadow-[0_0_40px_rgba(56,189,248,0.4)] animate-pop-toast border border-cyan-400/60 backdrop-blur-2xl">
+          <div className="p-1 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
+            <Check size={16} />
+          </div>
+          <span className="font-semibold">{toastMessage}</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping ml-1" />
         </div>
       )}
 
       <div className="container-custom">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono uppercase tracking-widest mb-3">
+              <Sparkles size={14} className="text-cyan-400" />
+              Direct Communication
+            </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight mb-4">
               Let&apos;s{" "}
               <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
@@ -46,11 +53,11 @@ export default function Contact() {
               </span>
             </h2>
             <p className="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg">
-              I&apos;m actively seeking opportunities to contribute and grow. Whether you have a question or an exciting project, let&apos;s talk!
+              I&apos;m actively seeking opportunities to contribute and build extraordinary software. Whether you have an open role, questions, or an ambitious system in mind, let&apos;s talk!
             </p>
           </div>
 
-          <div className="bg-slate-950/80 rounded-3xl shadow-2xl p-8 sm:p-12 border border-slate-800/80 backdrop-blur-xl grid md:grid-cols-5 gap-10">
+          <div className="bg-[#0b1325]/90 rounded-3xl shadow-2xl p-8 sm:p-12 border border-cyan-500/30 backdrop-blur-2xl grid md:grid-cols-5 gap-10">
             {/* Contact Info (2 cols) */}
             <div className="md:col-span-2 space-y-6">
               <div>
@@ -139,7 +146,6 @@ export default function Contact() {
               </div>
             </div>
 
-
             {/* Form (3 cols) */}
             <form onSubmit={onSubmit} suppressHydrationWarning className="md:col-span-3 space-y-4">
               {sent && (
@@ -221,7 +227,7 @@ export default function Contact() {
               <button
                 type="submit"
                 suppressHydrationWarning
-                className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-500 hover:from-blue-500 hover:to-cyan-400 text-white rounded-xl font-semibold text-sm transition-all hover:shadow-lg hover:shadow-cyan-500/25 active:scale-[0.99]"
+                className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-600 hover:from-blue-500 hover:to-cyan-400 text-white rounded-xl font-semibold text-sm transition-all hover:shadow-[0_0_30px_rgba(56,189,248,0.4)] active:scale-[0.99]"
               >
                 Send Message
                 <Send size={16} />

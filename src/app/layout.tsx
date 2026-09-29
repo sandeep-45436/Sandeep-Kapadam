@@ -4,6 +4,7 @@ import "./globals.css";
 import Navigation from "@/components/navigation/Navigation";
 import Footer from "@/components/footer/Footer";
 import Preloader from "@/components/ui/Preloader";
+import GlobalCyberBackground from "@/components/ui/GlobalCyberBackground";
 import { profile } from "@/data/profile";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
@@ -36,7 +37,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${grotesk.variable}`}>
-      <body suppressHydrationWarning className="font-sans bg-slate-950 text-slate-100">
+      <body suppressHydrationWarning className="font-sans bg-[#070a13] text-slate-100 relative min-h-screen">
+        <GlobalCyberBackground />
         <Preloader />
         <a
           href="#main"
@@ -58,10 +60,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
         <Navigation />
-        <main id="main">{children}</main>
+        <main id="main" className="relative z-10">{children}</main>
         <Footer />
       </body>
     </html>
   );
 }
-

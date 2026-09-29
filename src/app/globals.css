@@ -1,15 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #0b0f19;
-  --color-surface: #111827;
-  --color-surface-hover: #1e293b;
+  --color-bg: #070a13;
+  --color-surface: #0e1526;
+  --color-surface-hover: #17233c;
   --color-line: #1e293b;
   --color-fg: #f8fafc;
   --color-muted: #94a3b8;
   --color-accent: #38bdf8;
   --color-accent-blue: #3b82f6;
   --color-accent-purple: #a855f7;
+  --color-accent-emerald: #10b981;
 }
 
 @theme inline {
@@ -23,21 +24,38 @@ html {
 }
 
 body {
-  background-color: #0b0f19;
+  background-color: #070a13;
   color: #f8fafc;
   overflow-x: hidden;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  selection-background-color: #38bdf8;
 }
 
 ::selection {
   background: #38bdf8;
-  color: #0b0f19;
+  color: #070a13;
 }
 
 :focus-visible {
   outline: 2px solid #38bdf8;
   outline-offset: 3px;
   border-radius: 4px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #070a13;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #38bdf8;
 }
 
 @utility container-custom {
@@ -48,6 +66,7 @@ body {
   @apply py-20 md:py-28 lg:py-32;
 }
 
+/* Keyframes */
 @keyframes spinSlow {
   from {
     transform: rotate(0deg);
@@ -57,19 +76,40 @@ body {
   }
 }
 
+@keyframes spinReverseSlow {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
 @keyframes floatSlow {
   0%, 100% {
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes floatDrift {
+  0%, 100% {
+    transform: translate(0px, 0px);
+  }
+  33% {
+    transform: translate(6px, -10px);
+  }
+  66% {
+    transform: translate(-6px, -6px);
   }
 }
 
 @keyframes popIn {
   0% {
     opacity: 0;
-    transform: scale(0.92) translateY(12px);
+    transform: scale(0.92) translateY(14px);
   }
   70% {
     transform: scale(1.01) translateY(-2px);
@@ -80,10 +120,31 @@ body {
   }
 }
 
+@keyframes popModal3D {
+  0% {
+    opacity: 0;
+    transform: perspective(1200px) rotateX(10deg) translateY(36px) scale(0.92);
+    filter: blur(6px);
+  }
+  60% {
+    opacity: 0.95;
+    transform: perspective(1200px) rotateX(-1.5deg) translateY(-3px) scale(1.006);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1200px) rotateX(0deg) translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
+
 @keyframes popToast {
   0% {
     opacity: 0;
-    transform: translateY(16px) scale(0.92);
+    transform: translateY(20px) scale(0.88);
+  }
+  70% {
+    transform: translateY(-3px) scale(1.02);
   }
   100% {
     opacity: 1;
@@ -96,7 +157,24 @@ body {
     transform: translateY(-100%);
   }
   100% {
-    transform: translateY(1000%);
+    transform: translateY(1200%);
+  }
+}
+
+@keyframes laserScanVertical {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
   }
 }
 
@@ -115,29 +193,80 @@ body {
     transform: scale(1);
   }
   50% {
-    opacity: 0.9;
+    opacity: 0.95;
     transform: scale(1.05);
   }
 }
 
+@keyframes cyberPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.25), inset 0 0 15px rgba(56, 189, 248, 0.1);
+    border-color: rgba(56, 189, 248, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 45px rgba(56, 189, 248, 0.6), inset 0 0 30px rgba(56, 189, 248, 0.25);
+    border-color: rgba(56, 189, 248, 0.85);
+  }
+}
+
+@keyframes shockwave {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes hologramGrid {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 32px 32px;
+  }
+}
+
+/* Utility Animation Classes */
 .animate-spin-slow {
-  animation: spinSlow 8s linear infinite;
+  animation: spinSlow 12s linear infinite;
+}
+
+.animate-spin-reverse-slow {
+  animation: spinReverseSlow 14s linear infinite;
 }
 
 .animate-float-slow {
-  animation: floatSlow 4s ease-in-out infinite;
+  animation: floatSlow 4.5s ease-in-out infinite;
+}
+
+.animate-float-drift {
+  animation: floatDrift 6s ease-in-out infinite;
 }
 
 .animate-pop-in {
   animation: popIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+.animate-pop-modal-3d {
+  animation: popModal3D 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 .animate-pop-toast {
-  animation: popToast 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: popToast 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-scanline {
-  animation: scanline 3s linear infinite;
+  animation: scanline 2.8s linear infinite;
+}
+
+.animate-laser-scan-v {
+  animation: laserScanVertical 2.4s ease-in-out infinite;
 }
 
 .animate-border-beam {
@@ -148,21 +277,55 @@ body {
   animation: pulseGlow 3s ease-in-out infinite;
 }
 
-/* Glassmorphism specular utility */
+.animate-cyber-pulse {
+  animation: cyberPulse 2.8s ease-in-out infinite;
+}
+
+.animate-shockwave {
+  animation: shockwave 1.6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.animate-hologram-grid {
+  animation: hologramGrid 20s linear infinite;
+}
+
+/* Glassmorphism specular utilities */
 .glass-panel {
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(56, 189, 248, 0.15);
+  background: rgba(10, 16, 30, 0.72);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(56, 189, 248, 0.16);
 }
 
 .glass-panel-hover {
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .glass-panel-hover:hover {
-  border-color: rgba(56, 189, 248, 0.45);
-  box-shadow: 0 10px 40px -10px rgba(56, 189, 248, 0.25);
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow: 0 14px 45px -10px rgba(56, 189, 248, 0.3);
   transform: translateY(-4px);
 }
 
+/* Cyber Border Beam (moving neon light outline) */
+.cyber-border-beam-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: inherit;
+}
 
+.cyber-border-beam-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: -150%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 60deg,
+    #38bdf8 90deg,
+    #818cf8 120deg,
+    transparent 150deg,
+    transparent 360deg
+  );
+  animation: borderRotate 4s linear infinite;
+  pointer-events: none;
+}

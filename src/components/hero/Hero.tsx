@@ -1,50 +1,48 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { profile } from "@/data/profile";
-import { ArrowRight, Download, MapPin, Mail, Phone, Star, GitCommit, GitPullRequest, Sparkles, RotateCcw } from "lucide-react";
+import ResumeModal from "@/components/ui/ResumeModal";
+import {
+  ArrowRight,
+  Download,
+  MapPin,
+  Mail,
+  Phone,
+  Star,
+  GitCommit,
+  GitPullRequest,
+  Sparkles,
+  RotateCcw,
+} from "lucide-react";
 import { GithubIcon } from "@/components/ui/Icons";
 
 const Hero3D = dynamic(() => import("./Hero3D"), { ssr: false });
 
 export default function Hero() {
+  const [resumeOpen, setResumeOpen] = useState(false);
+
+  const handleReplayBoot = () => {
+    window.dispatchEvent(new Event("portfolio-replay-boot"));
+  };
+
   return (
-    <section id="hero" className="min-h-screen flex items-center pt-28 pb-16 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
+    <section
+      id="hero"
+      className="min-h-screen flex items-center pt-28 pb-16 bg-gradient-to-b from-[#070a13]/80 via-[#0a1020]/70 to-[#070a13]/90 relative overflow-hidden"
+    >
       {/* Interactive 3D WebGL Canvas Layer */}
-      <div className="absolute inset-0 pointer-events-auto opacity-35 z-0">
+      <div className="absolute inset-0 pointer-events-auto opacity-40 z-0">
         <Hero3D />
       </div>
 
-      {/* Animated Background Glowing Orbs */}
-      <div
-        aria-hidden
-        className="absolute top-16 left-12 w-80 h-80 bg-blue-500/15 rounded-full blur-[110px] pointer-events-none"
-      />
-      <div
-        aria-hidden
-        className="absolute bottom-16 right-12 w-96 h-96 bg-cyan-500/15 rounded-full blur-[130px] pointer-events-none"
-      />
-      <div
-        aria-hidden
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/10 rounded-full blur-[140px] pointer-events-none"
-      />
-
-      {/* Grid Pattern Overlay */}
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-[0.07] pointer-events-none"
-        style={{
-          backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 1px)",
-          backgroundSize: "44px 44px",
-        }}
-      />
-
       <div className="container-custom relative z-10 pointer-events-none">
         <div className="max-w-4xl mx-auto text-center pointer-events-auto">
-          {/* Availability & Replay Badges */}
+          {/* Availability & Replay Boot Sequence Badges */}
           <div className="flex items-center justify-center gap-3 mb-8 flex-wrap">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/25 rounded-full text-cyan-300 text-xs sm:text-sm font-medium backdrop-blur-md shadow-inner">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-cyan-500/30 rounded-full text-cyan-300 text-xs sm:text-sm font-medium backdrop-blur-md shadow-[0_0_15px_rgba(56,189,248,0.15)]">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
@@ -54,12 +52,12 @@ export default function Hero() {
 
             <button
               type="button"
-              onClick={() => window.location.reload()}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-700/80 text-slate-400 hover:text-cyan-300 text-xs font-mono transition-colors hover:border-cyan-500/40"
-              title="Re-run futuristic boot sequence"
+              onClick={handleReplayBoot}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#0d162a]/90 border border-cyan-500/40 text-cyan-300 hover:text-white text-xs font-mono transition-all hover:shadow-[0_0_20px_rgba(56,189,248,0.4)] active:scale-95"
+              title="Re-run futuristic boot sequence (or press B)"
             >
-              <RotateCcw size={12} />
-              Replay Intro
+              <RotateCcw size={12} className="text-cyan-400 animate-spin-reverse-slow" />
+              Replay Intro Sequence [B]
             </button>
           </div>
 
@@ -117,12 +115,13 @@ export default function Hero() {
               View My Work
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </a>
-            <a
-              href="#contact"
-              className="w-full sm:w-auto px-8 py-4 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 backdrop-blur-sm text-base"
+            <button
+              type="button"
+              onClick={() => setResumeOpen(true)}
+              className="w-full sm:w-auto px-8 py-4 bg-[#0d162a]/90 hover:bg-[#152342] border border-cyan-500/30 hover:border-cyan-400/60 text-slate-100 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 backdrop-blur-md text-base shadow-[0_0_20px_rgba(56,189,248,0.1)] active:scale-95"
             >
-              <Download size={18} /> Contact / Resume
-            </a>
+              <Download size={18} className="text-cyan-400" /> View CV / Resume Popup
+            </button>
           </div>
 
           {/* Contact & Location Strip */}
@@ -157,7 +156,7 @@ export default function Hero() {
             {profile.stats.map((stat) => (
               <div
                 key={stat.label}
-                className="text-center p-6 bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-800 hover:border-cyan-500/40 hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-black/20"
+                className="text-center p-6 bg-[#0b1325]/75 backdrop-blur-xl rounded-2xl border border-slate-800 hover:border-cyan-500/40 hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-black/20"
               >
                 <div className="text-3xl mb-2">{stat.icon}</div>
                 <div className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
@@ -172,21 +171,27 @@ export default function Hero() {
 
           {/* GitHub Stats Badges */}
           <div className="mt-8 flex justify-center flex-wrap gap-8 text-sm text-slate-400">
-            <div className="flex items-center gap-2 bg-slate-900/40 px-3.5 py-1.5 rounded-full border border-slate-800">
+            <div className="flex items-center gap-2 bg-[#0b1325]/60 px-3.5 py-1.5 rounded-full border border-slate-800 shadow-sm">
               <Star className="text-yellow-400" size={17} />
               <span className="text-slate-200 font-medium">{profile.githubStats.stars}+ Stars</span>
             </div>
-            <div className="flex items-center gap-2 bg-slate-900/40 px-3.5 py-1.5 rounded-full border border-slate-800">
+            <div className="flex items-center gap-2 bg-[#0b1325]/60 px-3.5 py-1.5 rounded-full border border-slate-800 shadow-sm">
               <GitCommit className="text-cyan-400" size={17} />
               <span className="text-slate-200 font-medium">{profile.githubStats.commits}+ Commits</span>
             </div>
-            <div className="flex items-center gap-2 bg-slate-900/40 px-3.5 py-1.5 rounded-full border border-slate-800">
+            <div className="flex items-center gap-2 bg-[#0b1325]/60 px-3.5 py-1.5 rounded-full border border-slate-800 shadow-sm">
               <GitPullRequest className="text-emerald-400" size={17} />
               <span className="text-slate-200 font-medium">{profile.githubStats.prs}+ PRs</span>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Holographic Resume Dossier Modal */}
+      <ResumeModal
+        isOpen={resumeOpen}
+        onClose={() => setResumeOpen(false)}
+      />
     </section>
   );
 }

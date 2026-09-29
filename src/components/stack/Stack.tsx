@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { techSkills, type TechSkill, type SkillCategoryKey } from "@/data/skills";
+import TechModal from "./TechModal";
 import {
   BrainCircuit,
   Code2,
@@ -41,6 +42,7 @@ const iconMap: Record<string, React.ElementType> = {
 export default function Stack() {
   const [selectedCategory, setSelectedCategory] = useState<SkillCategoryKey>("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedSkill, setSelectedSkill] = useState<TechSkill | null>(null);
 
   const categories: { key: SkillCategoryKey; label: string; icon: React.ElementType }[] = [
     { key: "all", label: "All Systems", icon: Flame },
@@ -61,7 +63,7 @@ export default function Stack() {
   });
 
   return (
-    <section id="skills" className="section-padding bg-slate-950 border-t border-slate-800/80 relative overflow-hidden">
+    <section id="skills" className="section-padding bg-[#070b16]/90 border-t border-slate-800/80 relative overflow-hidden">
       {/* Background Ambient Glow */}
       <div
         aria-hidden
@@ -86,7 +88,7 @@ export default function Stack() {
             </span>
           </h2>
           <p className="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg">
-            Hardened technologies and frameworks engineered across autonomous university RAG systems and privacy-first in-browser suites.
+            Hardened technologies and frameworks engineered across autonomous university RAG systems and privacy-first in-browser suites. Click any technology for an architectural deep-dive popup.
           </p>
         </div>
 
@@ -135,12 +137,13 @@ export default function Stack() {
             return (
               <div
                 key={skill.name}
-                className="group relative rounded-2xl p-5 bg-slate-900/60 border border-slate-800 hover:border-cyan-500/50 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 shadow-lg hover:shadow-cyan-500/10 flex flex-col justify-between"
+                onClick={() => setSelectedSkill(skill)}
+                className="group relative rounded-2xl p-5 bg-[#0b1325]/80 border border-slate-800 hover:border-cyan-400/60 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1.5 shadow-lg hover:shadow-[0_0_30px_rgba(56,189,248,0.2)] flex flex-col justify-between cursor-pointer"
               >
                 <div>
                   {/* Top Line: Icon & Tier Badge */}
                   <div className="flex items-center justify-between mb-4">
-                    <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-cyan-400 group-hover:border-cyan-500/40 group-hover:text-cyan-300 transition-colors">
+                    <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-cyan-400 group-hover:border-cyan-500/40 group-hover:text-cyan-300 transition-colors shadow-inner">
                       <Icon size={20} />
                     </div>
 
@@ -158,8 +161,9 @@ export default function Stack() {
                   </div>
 
                   {/* Skill Name */}
-                  <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-cyan-300 transition-colors">
-                    {skill.name}
+                  <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-cyan-300 transition-colors flex items-center justify-between">
+                    <span>{skill.name}</span>
+                    <Sparkles size={14} className="text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </h3>
 
                   {/* Description */}
@@ -169,18 +173,13 @@ export default function Stack() {
                 </div>
 
                 {/* Bottom Tag: Featured Project */}
-                {skill.project && (
-                  <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono">
-                    <span className="text-slate-500">Live In:</span>
-                    <a
-                      href="#projects"
-                      className="text-cyan-400 hover:text-cyan-300 font-semibold inline-flex items-center gap-1 transition-colors"
-                    >
-                      {skill.project}
-                      <ArrowUpRight size={12} />
-                    </a>
-                  </div>
-                )}
+                <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono">
+                  <span className="text-slate-500">Inspect Spec:</span>
+                  <span className="text-cyan-400 font-semibold inline-flex items-center gap-1 group-hover:underline">
+                    Dossier Popup
+                    <ArrowUpRight size={12} />
+                  </span>
+                </div>
               </div>
             );
           })}
@@ -193,6 +192,12 @@ export default function Stack() {
           </div>
         )}
       </div>
+
+      {/* Holographic Technology Dossier Modal Popup */}
+      <TechModal
+        skill={selectedSkill}
+        onClose={() => setSelectedSkill(null)}
+      />
     </section>
   );
 }
